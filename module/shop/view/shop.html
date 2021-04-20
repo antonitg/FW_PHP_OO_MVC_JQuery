@@ -1,0 +1,102 @@
+<!-- <div class=""> -->
+
+  <div class="container-fluid" style="margin-bottom: -25px;">
+    <div class="row">
+      <nav class="col-sm-3 col-md-2 sidebar" style="padding-bottom: 35px;">
+        <div class="sidebar-content">
+          <div class="sidebar-search">
+            <div class="input-group">
+              <input type="text" id="shop-search" class="form-control search-menu" placeholder="Search by Tags...">
+              <div class="input-group-append">
+                <span class="input-group-text">
+                  <i class="fa fa-search" aria-hidden="true"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="input-group">
+            <input type="number" id="min_price" class="form-control search-menu" placeholder="Min Price">
+            <input type="number" id="max_price" class="form-control search-menu" placeholder="Max Price">
+          </div>
+          <select class="custom-select" id="brand_cat">
+            <option value="%" selected>Choose...</option>
+          </select>
+          <select class="custom-select" id="condition_cat">
+            <option value="%" selected>Choose...</option>
+            <option value="New">New</option>
+            <option value="Used">Used</option>
+            <option value="Old">Old</option>
+          </select>
+          <select class="custom-select" id="num_pag_select">
+            <option selected value="10">Showing 10 Products</option>
+            <option value="20">Showing 20 Products</option>
+            <option value="30">Showing 30 Products</option>
+          </select>
+        </div>
+      </nav>
+      <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" style="background-color: antiquewhite;">
+        <h1 class="page-header text-center">Shop List</h1>
+        <div class="d-flex flex-wrap justify-content-around" id="result-content">
+        </div>
+        <nav class="text-center" aria-label="...">
+          <ul class="pagination" style="display: inline-flex;">
+          </ul>
+        </nav>
+      </div>
+    </div>
+    <!-- <div id="books_releated"></div> -->
+    <div id="map" style="height: 400px; width:100%;"> </div>
+    <!-- Cart Modal -->
+    <div class="modal fade" id="cartModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header border-bottom-0">
+            <h5 class="modal-title" id="exampleModalLabel">
+              Your Shopping Cart
+            </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <table class="table table-image">
+              <thead>
+                <tr>
+                  <th scope="col"></th>
+                  <th scope="col">Product</th>
+                  <th scope="col">Price</th>
+                  <th scope="col">Insurance</th>
+                  <th scope="col">Total</th>
+                  <th scope="col">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="tbodymodalcart">
+                <tr>
+                  <td class="w-25">
+                    <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/vans.png"
+                      class="img-fluid img-thumbnail" alt="Sheep">
+                  </td>
+                  <td>Vans Sk8-Hi MTE Shoes</td>
+                  <td>89$</td>
+                  <td class="qty"><button type="button" class="btn btn-danger">Remove Insurance -10%</button></td>
+                  <td>1788$</td>
+                  <td>
+                    <a href="#" class="btn btn-danger btn-sm">
+                      <i class="fa fa-times"></i>
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="d-flex justify-content-end">
+              <h5>Total: <span class="price text-success">89$</span></h5>
+            </div>
+          </div>
+          <div class="modal-footer border-top-0 d-flex justify-content-between">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" id="finalcheckout" class="btn btn-success">Checkout</button>
+          </div>
+        </div>
+      </div>
+    </div>

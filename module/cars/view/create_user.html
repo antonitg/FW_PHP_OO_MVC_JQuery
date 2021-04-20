@@ -1,0 +1,126 @@
+<div id="contenido">
+	<script src="module/cars/model/cars.js"></script>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script>
+		$(function () {
+			$(".datepicker").datepicker({
+				altField: "#actualDate",
+				altFormat: "dd-mm-yyyy"
+			});
+
+		});
+	</script>
+	<div>
+		<form method="post" name="formcars" id="formcars">
+			<div class="form-group row" style="margin-right: 0px!IMPORTANT;">
+				<label for="Registration" class="col-sm-2 col-form-label">Registration</label>
+				<div class="col-sm-2">
+					<input name="Registration" id="Registration" class="form-control" type="text"
+						placeholder="0000AAA" />
+				</div>
+				<label id="error_Registration" class="error"></label>
+			</div>
+			<div class="form-group row" style="margin-right: 0px!IMPORTANT;">
+				<label for="Brand" class="col-sm-2 col-form-label">Brand</label>
+				<div class="col-sm-2">
+					<input class="form-control" name="Brand" id="Brand" type="text" placeholder="BMW" />
+				</div>
+				<label id="error_Brand" class="error"></label>
+
+			</div>
+			<div class="form-group row" style="margin-right: 0px!IMPORTANT;">
+				<label for="Model" class="col-sm-2 col-form-label">Model</label>
+				<div class="col-sm-4">
+
+					<input class="form-control" name="Model" id="Model" type="text" placeholder="Model" />
+				</div>
+				<label id="error_Model" class="error"></label>
+			</div>
+			<div class="form-group row" style="margin-right: 0px!IMPORTANT;">
+				<label for="Category" class="col-sm-2 col-form-label">Category</label>
+				<div class="col-sm-4">
+
+					<input class="form-control" name="Category" id="Category" type="text"
+						placeholder="Cat1,Cat2,Cat3" />
+				</div>
+				<label id="error_Category" class="error"></label>
+			</div>
+			<div class="form-group row" style="margin-right: 0px!IMPORTANT;">
+				<label for="Price" class="col-sm-2 col-form-label">Price</label>
+				<div class="col-sm-2">
+
+					<input class="form-control" name="Price" id="Price" type="number" placeholder="Price" />
+				</div>
+				<label id="error_Price" class="error"></label>
+			</div>
+			<div class="form-group row" style="margin-right: 0px!IMPORTANT;">
+				<label for="email" class="col-sm-2 col-form-label">Registration Date</label>
+				<div class="col-sm-2">
+
+					<input class="form-control datepicker"  autocomplete="false" name="RegistrationDate" id="RegistrationDate"
+						type="text" placeholder="10/10/2010" />
+				</div>
+				<label id="error_RegistrationDate" class="error"></label>
+			</div>
+			<fieldset class="form-group">
+				<div class="row" style="margin-right: 0px!IMPORTANT;">
+					<legend for="Condition" class="col-form-label col-sm-2 pt-0">Condition</legend>
+					<div class="col-sm-10">
+						<div class="form-check">
+							<input type="radio" name="Condition" class="Condition form-check-input" id="New"
+								value="New">
+							<label class="form-check-label">
+								New (Not used)
+							</label>
+						</div>
+						<div class="form-check">
+							<input type="radio" name="Condition" class="Condition form-check-input" id="Used"
+								value="Used">
+							<label class="form-check-label">
+								Used (0-80K KM)
+							</label>
+						</div>
+						<div class="form-check">
+							<input type="radio" name="Condition" class="Condition form-check-input" id="Old"
+								value="Old">
+							<label class="form-check-label">
+								Old (81K+ KM)
+							</label>
+						</div>
+						<label id="error_Condition" class="error"></label>
+					</div>
+				</div>
+			</fieldset>
+			<div class="form-group row" style="margin-right: 0px!IMPORTANT;">
+				<div class="col-sm-2">Upgrades</div>
+				<div class="form-check">
+					<input type="checkbox" name="Upgrade[]" id="Upgrade" class="Upgrade form-check-input" value="Motor">
+					<label class="form-check-label">Motor </label>
+				</div>
+				<div class="form-check">
+					<input type="checkbox" name="Upgrade[]" id="Upgrade" class="Upgrade form-check-input"
+						value="Wheels">
+					<label class="form-check-label">Wheels </label>
+				</div>
+				<div class="form-check">
+					<input type="checkbox" name="Upgrade[]" id="Upgrade" class="Upgrade form-check-input" value="Seats">
+					<label class="form-check-label">Seats </label>
+				</div>
+				<label id="error_Upgrades" class="error"></label>
+			</div>
+			<div class="form-group row" style="margin-right: 0px!IMPORTANT;">
+				<div class="col-sm-10">
+					<input name="Submit" type="button" class="btn btn-dark" value="Submit"
+						onclick="validate_car()" />
+				</div>
+			</div>
+		</form>
+		<p id="error"></p>
+	</div>
+</div>
+
+</div>

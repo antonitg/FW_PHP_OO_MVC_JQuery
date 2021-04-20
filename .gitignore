@@ -1,0 +1,7 @@
+/model/.php
+/model/*.js
+/model/credentials/*
+/model/credentials/credentials.php
+*.txt
+*.log
+*.ini

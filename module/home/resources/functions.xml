@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<functions>
+    <function>
+        <name>list</name>
+        <uri>list</uri>
+    </function>
+    <function>
+        <name>homePageSlide</name>
+        <uri>homePageSlide</uri>
+    </function>
+    <function>
+        <name>homeLoadCat</name>
+        <uri>homeLoadCat</uri>
+    </function>
+    <function>
+        <name>homeLoadSliderProd</name>
+        <uri>homeLoadSliderProd</uri>
+    </function>
+</functions>

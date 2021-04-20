@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<functions>
+    <function>
+        <name>list</name>
+        <uri>list</uri>
+    </function>
+    <function>
+        <name>getBrandsSearch</name>
+        <uri>getBrandsSearch</uri>
+    </function>
+    <function>
+        <name>getAutocompleteSearch</name>
+        <uri>getAutocompleteSearch</uri>
+    </function>
+    <function>
+        <name>homeLoadSliderProd</name>
+        <uri>homeLoadSliderProd</uri>
+    </function>
+</functions>

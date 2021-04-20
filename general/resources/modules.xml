@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modules>
+    <module>
+        <name>home</name>
+        <uri>home</uri>
+    </module>
+    <module>
+        <name>shop</name>
+        <uri>shop</uri>
+    </module>
+    <module>
+        <name>search</name>
+        <uri>search</uri>
+    </module>
+    <module>
+        <name>login</name>
+        <uri>login</uri>
+        <uri>register</uri>
+    </module>
+    <module>
+        <name>cart</name>
+        <uri>cart</uri>
+    </module>
+    <module>
+        <name>aboutus</name>
+        <uri>aboutus</uri>
+    </module>
+    <module>
+        <name>our-brands</name>
+        <uri>our-brands</uri>
+    </module>
+    <module>
+        <name>user-order</name>
+        <uri>user-order</uri>
+    </module>
+    <module>
+        <name>profile</name>
+        <uri>profile</uri>
+    </module>
+</modules>
