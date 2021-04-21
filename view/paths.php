@@ -1,6 +1,6 @@
 <?php
 //////
-define ('PROJECT', '/cars/FW_3AVA/'); // Project Path
+define ('PROJECT', '/cars/FW_3AVA/FW_PHP_OO_MVC_Jquery/'); // Project Path
 define ('SITE_ROOT', $_SERVER['DOCUMENT_ROOT'] . PROJECT); // Site Root
 define ('SITE_PATH', 'http://' . $_SERVER['HTTP_HOST'] . PROJECT); // Site Path
 define ('CSS_PATH', SITE_PATH . 'view/css/'); // Css Path

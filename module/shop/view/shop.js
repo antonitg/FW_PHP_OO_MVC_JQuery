@@ -1,11 +1,11 @@
 function load_content(loadurl) {
-    console.log(loadurl);
-
+    // console.log(loadurl);
     $('.pagination').empty();
     $("#books_releated").empty();
-    // getPaginationValues();
+    getPaginationValues();
+
     friendlyURL('?page=shop&op=getFiltersSearch').then(function (data) {
-        ajaxPromise(data, 'POST', 'JSON', {objenv:JSON.stringify(loadurl)}).then(function (jsonSearch) {
+        ajaxPromise(data, 'POST', 'JSON', { objenv: JSON.stringify(loadurl) }).then(function (jsonSearch) {
             console.log(jsonSearch);
             $('#result-content').empty();
             if (Object.keys(jsonSearch).length == 1) {
@@ -41,18 +41,18 @@ function load_content(loadurl) {
 function pagination(url) {
     var showperpage = $("#num_pag_select").val();
     friendlyURL('?page=shop&op=getPagination').then(function (data) {
-        ajaxPromise(data, 'POST', 'JSON', url).then(function (jsonSearch) {
-        console.log(jsonSearch);
-        if (Object.keys(jsonSearch).length / showperpage - Math.floor(Object.keys(jsonSearch).length / showperpage) == 0) {
-            varnumfinal = Object.keys(jsonSearch).length / showperpage;
-        } else {
-            varnumfinal = (Math.floor(Object.keys(jsonSearch).length / showperpage)) + 1;
-        }
-        load_pagination(varnumfinal);
-    }).catch(function (error) {
-        console.log('Fail when trying to get the information.');
+        ajaxPromise(data, 'POST', 'JSON', { objenv: JSON.stringify(url) }).then(function (jsonSearch) {
+            console.log("Dins de pagination");
+            if (Object.keys(jsonSearch).length / showperpage - Math.floor(Object.keys(jsonSearch).length / showperpage) == 0) {
+                varnumfinal = Object.keys(jsonSearch).length / showperpage;
+            } else {
+                varnumfinal = (Math.floor(Object.keys(jsonSearch).length / showperpage)) + 1;
+            }
+            load_pagination(varnumfinal);
+        }).catch(function (error) {
+            console.log('Fail when trying to get the information.');
+        });
     });
-});
 
 }
 function load_pagination(numpages) {
@@ -79,37 +79,34 @@ function load_filters() {
     });
 }
 
-function details(id) {
-    $.ajax({
-        type: 'GET',
-        dataType: 'JSON',
-        url: 'module/shop/controller/controller_shop.php?op=details&id=' + id,
-    }).done(function (jsonCar) {
-        // console.log(jsonCar); // Debug
-        $('.pagination').empty();
-        $('#result-content').empty();
-        $('<table></table>').attr({ 'id': 'car_details_table', 'class': 'table table-hover' }).appendTo('#result-content');
-        $('#car_details_table').html(function () {
-            for (row in jsonCar) {
-                if (row == "srcimg") {
-                    $('<tr></tr>').attr({ 'id': row }).appendTo('#car_details_table');
-                    $('<td></td>').attr({ 'id': `${row}index`, 'class': 'text-center' }).appendTo('#' + row);
-                    $('<img>').attr({ 'id': `${row}content`, 'class': 'text-center', 'src': jsonCar[row] }).appendTo(`#${row}index`);
-                } else {
-                    $('<tr></tr>').attr({ 'id': row }).appendTo('#car_details_table');
-                    $('<td></td>').attr({ 'id': `${row}index` }).append(document.createTextNode(row)).appendTo('#' + row);
-                    $('<td></td>').attr({ 'id': `${row}content` }).append(document.createTextNode(jsonCar[row])).appendTo('#' + row);
+function details(carid) {
+    friendlyURL('?page=shop&op=getDetails').then(function (data) {
+        ajaxPromise(data, 'POST', 'JSON', { registration: carid }).then(function (jsonCar) {
+            console.log(jsonCar); // Debug
+            $('.pagination').empty();
+            $('#result-content').empty();
+            $('<table></table>').attr({ 'id': 'car_details_table', 'class': 'table table-hover' }).appendTo('#result-content');
+            $('#car_details_table').html(function () {
+                for (row in jsonCar) {
+                    if (row == "srcimg") {
+                        $('<tr></tr>').attr({ 'id': row }).appendTo('#car_details_table');
+                        $('<td></td>').attr({ 'id': `${row}index`, 'class': 'text-center' }).appendTo('#' + row);
+                        $('<img>').attr({ 'id': `${row}content`, 'class': 'text-center', 'src': jsonCar[row] }).appendTo(`#${row}index`);
+                    } else {
+                        $('<tr></tr>').attr({ 'id': row }).appendTo('#car_details_table');
+                        $('<td></td>').attr({ 'id': `${row}index` }).append(document.createTextNode(row)).appendTo('#' + row);
+                        $('<td></td>').attr({ 'id': `${row}content` }).append(document.createTextNode(jsonCar[row])).appendTo('#' + row);
+                    }
                 }
-            }
+            });
+            $('<div></div>').attr({ 'id': 'books_releated' }).appendTo('#result-content');
+            $('<button></button>').attr({ 'id': 'showmore', 'class': 'btn btn-info', 'style': 'margin-left: 39%; margin-right: 39%;' }).append(document.createTextNode("More")).appendTo('#result-content');
+            load_api_books();
+        }).catch(function () {
+            console.log('Fail when trying to get the information.');
         });
-        $('<div></div>').attr({ 'id': 'books_releated' }).appendTo('#result-content');
-        $('<button></button>').attr({ 'id': 'showmore', 'class': 'btn btn-info', 'style': 'margin-left: 39%; margin-right: 39%;' }).append(document.createTextNode("More")).appendTo('#result-content');
-        load_api_books();
-    }).fail(function (jqXHR, textStatus, errorThrown) {
-        if (console && console.log) {
-            console.log("Error name/code: " + textStatus);
-        }
     });
+
 }
 function load_api_books() {
     var offset = $("#books_releated")[0].childElementCount;
@@ -168,30 +165,27 @@ function initMap() {
             };
             infowindow.setPosition(pos);
             map.setCenter(pos);
-            $.ajax({
-                type: 'GET',
-                dataType: 'JSON',
-                url: 'module/shop/controller/controller_shop.php?op=getmap&lat=' + pos["lat"] + "&lon=" + pos["lng"],
-            }).done(function (jsonSearch) {
-                $.each(jsonSearch, function (i, item) {
-                    var myLatlng = new google.maps.LatLng(jsonSearch[i]["lat"], jsonSearch[i]["lon"]);
-                    var newMarker = new google.maps.Marker({
-                        position: myLatlng,
-                        map,
-                        title: "Car near!",
+            friendlyURL('?page=shop&op=getMapShop').then(function (data) {
+                ajaxPromise(data, 'POST', 'JSON', { lat: pos["lat"], lon: pos["lng"] }).then(function (jsonSearch) {
+                    console.log(jsonSearch);
+                    $.each(jsonSearch, function (i, item) {
+                        var myLatlng = new google.maps.LatLng(jsonSearch[i]["lat"], jsonSearch[i]["lon"]);
+                        var newMarker = new google.maps.Marker({
+                            position: myLatlng,
+                            map,
+                            title: "Car near!",
+                        });
+                        google.maps.event.addListener(newMarker, 'click', (function (newMarker, i) {
+                            return function () {
+                                infowindow.setContent("<b>" + jsonSearch[i]["brand"] + " " + jsonSearch[i]["model"] + "</b><br>" + jsonSearch[i]["carcondition"] + " " + jsonSearch[i]["price"] + "€" + "<br><img class='mapsimage' id='" + jsonSearch[i]["registration"] + "' style='height:110px;' src='" + jsonSearch[i]["src"] + "' alt='image in infowindow'>");
+                                infowindow.open(map, newMarker);
+                            }
+                        })(newMarker, i));
+                        markers.push(newMarker);
                     });
-                    google.maps.event.addListener(newMarker, 'click', (function (newMarker, i) {
-                        return function () {
-                            infowindow.setContent("<b>" + jsonSearch[i]["brand"] + " " + jsonSearch[i]["model"] + "</b><br>" + jsonSearch[i]["carcondition"] + " " + jsonSearch[i]["price"] + "€" + "<br><img class='mapsimage' id='" + jsonSearch[i]["registration"] + "' style='height:110px;' src='" + jsonSearch[i]["src"] + "' alt='image in infowindow'>");
-                            infowindow.open(map, newMarker);
-                        }
-                    })(newMarker, i));
-                    markers.push(newMarker);
+                }).catch(function () {
+                    console.log('Fail when trying to get the information.');
                 });
-            }).fail(function (jqXHR, textStatus, errorThrown) {
-                if (console && console.log) {
-                    console.log("Error name/code: " + textStatus);
-                }
             });
         },
         () => {
@@ -216,14 +210,13 @@ function getPaginationValues() {
     var url = { keyword: filkeyword, brand: filbrand, condition: filcondition, minprice: filminprice, maxprice: filmaxprice, showing: filshowing, page: filpage, token: localStorage.getItem("token") };
     pagination(url);
 }
-function getSearchValues(page = 1) {
+function getSearchValues(filpage = 1) {
     var filkeyword = $("#shop-search").val();
     var filbrand = $("#brand_cat").val();
     var filcondition = $("#condition_cat").val();
     var filmaxprice = $("#max_price").val();
     var filminprice = $("#min_price").val();
     var filshowing = $("#num_pag_select").val();
-    var filpage = 1;
 
     if (filmaxprice == "") {
         filmaxprice = 99999999;
@@ -232,112 +225,98 @@ function getSearchValues(page = 1) {
         filminprice = 100;
     }
     // var url = "keyword=" + keyword + "&brand=" + brand + "&condition=" + condition + "&minprice=" + minprice + "&maxprice=" + maxprice;
-    var url = { keyword: filkeyword, brand: filbrand, condition: filcondition, minprice: filminprice, maxprice: filmaxprice, showing: filshowing, page: filpage,token: localStorage.getItem("token") };
+    var url = { keyword: filkeyword, brand: filbrand, condition: filcondition, minprice: filminprice, maxprice: filmaxprice, showing: filshowing, page: filpage, token: localStorage.getItem("token") };
     load_content(url);
 }
-function rmcart(id) {
-    $.ajax({
-        type: 'GET',
-        // dataType: 'JSON',
-        url: 'module/shop/controller/controller_shop.php?op=rmcart&registration=' + id + "&token=" + localStorage.getItem("token"),
-    }).done(function (jsonCar) {
-        console.log(jsonCar);
-        loadcart();
-    }).fail(function (jqXHR, textStatus, errorThrown) {
-        if (console && console.log) {
-            console.log("Error name/code: " + textStatus);
-        }
+function rmcart(carid) {
+    friendlyURL('?page=shop&op=rmItemCart').then(function (data) {
+        ajaxPromise(data, 'POST', '', { registration: carid, token: localStorage.getItem("token") }).then(function (jsonCar) {
+            // console.log(jsonCar);
+            loadcart();
+        }).catch(function () {
+            // console.log('Fail when trying to get the information.');
+        });
     });
 }
-function addcart(id) {
-    $.ajax({
-        type: 'GET',
-        // dataType: 'JSON',
-        url: 'module/shop/controller/controller_shop.php?op=addcart&registration=' + id + '&token=' + localStorage.getItem("token"),
-    }).done(function (jsonCar) {
-        loadcart();
-        console.log(jsonCar);
-    }).fail(function (jqXHR, textStatus, errorThrown) {
-        if (console && console.log) {
-            console.log("Error name/code: " + textStatus);
-        }
+function addcart(carid) {
+    friendlyURL('?page=shop&op=addItemCart').then(function (data) {
+        ajaxPromise(data, 'POST', '', { registration: carid, token: localStorage.getItem("token") }).then(function (jsonCar) {
+            loadcart();
+            // console.log(jsonCar);
+        }).catch(function () {
+            // console.log('Fail when trying to get the information.');
+        });
     });
 }
 function loadcart() {
     $('.cartul').remove();
     $('.price').empty();
     $('#tbodymodalcart').empty();
-
-    $.ajax({
-        type: 'GET',
-        dataType: 'JSON',
-        url: 'module/shop/controller/controller_shop.php?op=loadcart&token=' + localStorage.getItem("token"),
-    }).done(function (jsonCar) {
-        console.log(jsonCar);
-        // Sidebar Cart
-        $('<ul></ul>').attr({ 'class': 'list-group cartul' }).appendTo(".sidebar");
-        $('<li></li>').attr({ 'class': 'list-group-item active', 'id': 'test' }).append(document.createTextNode("Cart")).appendTo(".cartul");
-        $('<span></span>').attr({ 'class': 'badge badge-primary badge-pill', 'style': 'background-color:darkblue;margin-left:8px;' }).append(document.createTextNode(Object.keys(jsonCar).length)).appendTo("#test");
-
-        totalprice = 0;
-        $.each(jsonCar, function (i, item) {
-            console.log(totalprice);
-            totalprice = totalprice + parseInt(jsonCar[i]["cartprice"]);
-            $('<li></li>').attr({ 'class': 'list-group-item', 'id': jsonCar[i]["registration"], 'style': 'border: 3px solid #007bff;border-top: 0px;border-bottom: 0px;' }).append('<img src="' + jsonCar[i]["src"] + '" style="width:35%;height:35%;margin-right:8px;">', document.createTextNode(jsonCar[i]["brand"] + " " + jsonCar[i]["model"]), '<i class="fas fa-cart-arrow-down rmcart" id="' + jsonCar[i]["registration"] + '" style="margin-left:8px;font-size:22px;cursor:pointer;"></i>').appendTo(".cartul");
-            // Modal Cart
-            $('<tr></tr>').attr({ 'id': jsonCar[i]["registration"] + "modaltr" }).appendTo("#tbodymodalcart");
-            $('<td></td>').attr({ 'id': jsonCar[i]["registration"] + "modaltdphoto", 'class': 'w-25' }).append($("<img>").attr({ 'src': jsonCar[i]["src"], 'class': 'img-fluid img-thumbnail' })).appendTo("#" + jsonCar[i]["registration"] + "modaltr");
-            $('<td></td>').append(document.createTextNode(jsonCar[i]["brand"] + " " + jsonCar[i]["model"] + " - " + jsonCar[i]["carcondition"])).appendTo("#" + jsonCar[i]["registration"] + "modaltr");
-            // if (jsonCar[i]["insurance"] === 1) {
-            //     finalprice = (jsonCar[i]["price"]+jsonCar[i]["price"]/10);
-            $('<td></td>').append(document.createTextNode(jsonCar[i]["price"])).appendTo("#" + jsonCar[i]["registration"] + "modaltr");
-            // } else {ç
-            if (jsonCar[i]["insurance"] == 1) {
-                $('<td></td>').append($('<button></button>').attr({ 'type': 'button', 'class': 'btn btn-danger rminsurance', 'id': jsonCar[i]["registration"] }).append(document.createTextNode('Remove Insurance -10%'))).appendTo("#" + jsonCar[i]["registration"] + "modaltr");
-            } else {
-                $('<td></td>').append($('<button></button>').attr({ 'type': 'button', 'class': 'btn btn-success addinsurance', 'id': jsonCar[i]["registration"] }).append(document.createTextNode('Add Insurance +10%'))).appendTo("#" + jsonCar[i]["registration"] + "modaltr");
+    friendlyURL('?page=shop&op=getCart').then(function (data) {
+        ajaxPromise(data, 'POST', 'JSON', { token: localStorage.getItem("token") }).then(function (jsonCar) {
+            // console.log(jsonCar);
+            // Sidebar Cart
+            if (jsonCar.length == undefined) {
+                jsonCar = [jsonCar]; 
+                if (!jsonCar[0].registration) {
+                    return; 
+                }
             }
-            $('<td></td>').append(document.createTextNode(jsonCar[i]["cartprice"])).appendTo("#" + jsonCar[i]["registration"] + "modaltr");
-            // }
-            $('<td></td>').attr({ 'id': jsonCar[i]["registration"] + 'remove' }).appendTo("#" + jsonCar[i]["registration"] + "modaltr");
-            $('<a></a>').attr({ 'class': 'btn btn-danger btn-sm rmcart', 'id': jsonCar[i]["registration"] }).append($('<i></i>').attr({ 'class': 'fa fa-times' })).appendTo('#' + jsonCar[i]["registration"] + 'remove');
-        });
-        $('<li></li>').attr({ 'class': 'list-group-item active', 'id': 'test' }).append($('<button></button>').attr({ 'type': 'button', 'class': 'btn btn-info firstcheckout', 'style': 'width:100%;height:100%;' }).append(document.createTextNode('Checkout'))).appendTo(".cartul");
-        $('.price').append(document.createTextNode(totalprice + "$"));
-    }).fail(function (jqXHR, textStatus, errorThrown) {
-        if (console && console.log) {
-            console.log("Error name/code: " + textStatus + jsonCar);
-        }
-    });
-}
-function addinsurance(id) {
-    $.ajax({
-        type: 'GET',
-        // dataType: 'JSON',
-        url: 'module/shop/controller/controller_shop.php?op=addinsurance&id=' + id + "&token=" + localStorage.getItem("token"),
-    }).done(function (jsonCar) {
-        console.log(jsonCar);
+            $('<ul></ul>').attr({ 'class': 'list-group cartul' }).appendTo(".sidebar");
+            $('<li></li>').attr({ 'class': 'list-group-item active', 'id': 'test' }).append(document.createTextNode("Cart")).appendTo(".cartul");
+            $('<span></span>').attr({ 'class': 'badge badge-primary badge-pill', 'style': 'background-color:darkblue;margin-left:8px;' }).append(document.createTextNode(Object.keys(jsonCar).length)).appendTo("#test");
 
-        loadcart();
-    }).fail(function (jqXHR, textStatus, errorThrown) {
-        if (console && console.log) {
-            console.log("Error name/code: " + textStatus);
-        }
+            totalprice = 0;
+            $.each(jsonCar, function (i, item) {
+                console.log(totalprice);
+                totalprice = totalprice + parseInt(jsonCar[i]["cartprice"]);
+                $('<li></li>').attr({ 'class': 'list-group-item', 'id': jsonCar[i]["registration"], 'style': 'border: 3px solid #007bff;border-top: 0px;border-bottom: 0px;' }).append('<img src="' + jsonCar[i]["src"] + '" style="width:35%;height:35%;margin-right:8px;">', document.createTextNode(jsonCar[i]["brand"] + " " + jsonCar[i]["model"]), '<i class="fas fa-cart-arrow-down rmcart" id="' + jsonCar[i]["registration"] + '" style="margin-left:8px;font-size:22px;cursor:pointer;"></i>').appendTo(".cartul");
+                // Modal Cart
+                $('<tr></tr>').attr({ 'id': jsonCar[i]["registration"] + "modaltr" }).appendTo("#tbodymodalcart");
+                $('<td></td>').attr({ 'id': jsonCar[i]["registration"] + "modaltdphoto", 'class': 'w-25' }).append($("<img>").attr({ 'src': jsonCar[i]["src"], 'class': 'img-fluid img-thumbnail' })).appendTo("#" + jsonCar[i]["registration"] + "modaltr");
+                $('<td></td>').append(document.createTextNode(jsonCar[i]["brand"] + " " + jsonCar[i]["model"] + " - " + jsonCar[i]["carcondition"])).appendTo("#" + jsonCar[i]["registration"] + "modaltr");
+                // if (jsonCar[i]["insurance"] === 1) {
+                //     finalprice = (jsonCar[i]["price"]+jsonCar[i]["price"]/10);
+                $('<td></td>').append(document.createTextNode(jsonCar[i]["price"])).appendTo("#" + jsonCar[i]["registration"] + "modaltr");
+                // } else {ç
+                if (jsonCar[i]["insurance"] == 1) {
+                    $('<td></td>').append($('<button></button>').attr({ 'type': 'button', 'class': 'btn btn-danger rminsurance', 'id': jsonCar[i]["registration"] }).append(document.createTextNode('Remove Insurance -10%'))).appendTo("#" + jsonCar[i]["registration"] + "modaltr");
+                } else {
+                    $('<td></td>').append($('<button></button>').attr({ 'type': 'button', 'class': 'btn btn-success addinsurance', 'id': jsonCar[i]["registration"] }).append(document.createTextNode('Add Insurance +10%'))).appendTo("#" + jsonCar[i]["registration"] + "modaltr");
+                }
+                $('<td></td>').append(document.createTextNode(jsonCar[i]["cartprice"])).appendTo("#" + jsonCar[i]["registration"] + "modaltr");
+                // }
+                $('<td></td>').attr({ 'id': jsonCar[i]["registration"] + 'remove' }).appendTo("#" + jsonCar[i]["registration"] + "modaltr");
+                $('<a></a>').attr({ 'class': 'btn btn-danger btn-sm rmcart', 'id': jsonCar[i]["registration"] }).append($('<i></i>').attr({ 'class': 'fa fa-times' })).appendTo('#' + jsonCar[i]["registration"] + 'remove');
+            });
+            $('<li></li>').attr({ 'class': 'list-group-item active', 'id': 'test' }).append($('<button></button>').attr({ 'type': 'button', 'class': 'btn btn-info firstcheckout', 'style': 'width:100%;height:100%;' }).append(document.createTextNode('Checkout'))).appendTo(".cartul");
+            $('.price').append(document.createTextNode(totalprice + "$"));
+        }).catch(function () {
+            console.log('Fail when trying to get the information.');
+        });
     });
 }
-function rminsurance(id) {
-    $.ajax({
-        type: 'GET',
-        // dataType: 'JSON',
-        url: 'module/shop/controller/controller_shop.php?op=rminsurance&id=' + id + "&token=" + localStorage.getItem("token"),
-    }).done(function (jsonCar) {
-        console.log(jsonCar);
-        loadcart();
-    }).fail(function (jqXHR, textStatus, errorThrown) {
-        if (console && console.log) {
-            console.log("Error name/code: " + textStatus);
-        }
+function addinsurance(carid) {
+    friendlyURL('?page=shop&op=addItemIns').then(function (data) {
+        ajaxPromise(data, 'POST', '', { registration: carid, token: localStorage.getItem("token") }).then(function (jsonCar) {
+            console.log(jsonCar);
+            loadcart();
+        }).catch(function () {
+            console.log('Fail when trying to get the information.');
+        });
     });
+
+}
+function rminsurance(carid) {
+    friendlyURL('?page=shop&op=rmItemIns').then(function (data) {
+        ajaxPromise(data, 'POST', '', { registration: carid, token: localStorage.getItem("token") }).then(function (jsonCar) {
+            console.log(jsonCar);
+            loadcart();
+        }).catch(function () {
+            console.log('Fail when trying to get the information.');
+        });
+    });
+
 }
 function finalcheckout() {
     $.ajax({
@@ -354,36 +333,30 @@ function finalcheckout() {
     });
 }
 
-function fav(id, action) {
+function fav(carid, action) {
     if (action == "fav") {
-        $.ajax({
-            type: 'GET',
-            // dataType: 'JSON',
-            url: 'module/shop/controller/controller_shop.php?op=fav&id=' + id + "&user=" + localStorage.getItem("token"),
-        }).done(function (jsonCar) {
-            console.log(jsonCar);
-        }).fail(function (jqXHR, textStatus, errorThrown) {
-            if (console && console.log) {
-                console.log("Error name/code: " + textStatus);
-            }
+        friendlyURL('?page=shop&op=addItemFav').then(function (data) {
+            ajaxPromise(data, 'POST', '', { registration: carid, token: localStorage.getItem("token") }).then(function (jsonCar) {
+                console.log(jsonCar);
+                loadcart();
+            }).catch(function () {
+                console.log('Fail when trying to get the information.');
+            });
         });
     } else if (action == "unfav") {
-        $.ajax({
-            type: 'GET',
-            dataType: 'JSON',
-            url: 'module/shop/controller/controller_shop.php?op=unfav&id=' + id + "&user=" + localStorage.getItem("token"),
-        }).done(function (jsonCar) {
-            // console.log(jsonCar);
-        }).fail(function (jqXHR, textStatus, errorThrown) {
-            if (console && console.log) {
-                console.log("Error name/code: " + textStatus);
-            }
+        friendlyURL('?page=shop&op=rmItemFav').then(function (data) {
+            ajaxPromise(data, 'POST', '', { registration: carid, token: localStorage.getItem("token") }).then(function (jsonCar) {
+                console.log(jsonCar);
+                loadcart();
+            }).catch(function () {
+                console.log('Fail when trying to get the information.');
+            });
         });
     }
 }
 $(document).ready(function () {
     // loadcart();
-    
+
 
     load_filters();
     if (document.getElementById("map") != null) {

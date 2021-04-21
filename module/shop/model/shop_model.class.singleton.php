@@ -17,7 +17,10 @@ class shop_model {
 
     public function getFiltersSearch($args) {
         return $this -> bll -> getFiltersSearch($args);
-    }// end_getSlider_home
+    }
+    public function getPagination($args) {
+        return $this -> bll -> getPagination($args);
+    }
     public function getMapShop($args) {
         return $this -> bll -> getMapShop($args);
     }

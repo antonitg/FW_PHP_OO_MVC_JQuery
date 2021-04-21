@@ -41,9 +41,11 @@ class shop_dao
         $minprice = 100;
     }
     if ($maxprice == "null") {
-        $maxprice = 99999999;
+        $maxprice = 999999;
     }
-    $typedQuery = "SELECT * FROM `cars` WHERE `brand` LIKE '{$brand}' AND `carcondition` LIKE '{$condition}' AND `model` LIKE '%{$keyword}%' AND `price` BETWEEN '{$minprice}' AND '{$maxprice}";
+    $typedQuery = "SELECT * FROM `cars` WHERE `brand` LIKE '{$brand}' AND `carcondition` LIKE '{$condition}' AND `model` LIKE '%{$keyword}%' AND `price` BETWEEN '{$minprice}' AND '{$maxprice}'";
+    // var_dump($typedQuery);
+    // die();
     return db::query()->manual($typedQuery)
         ->execute()
         ->queryToArray()
@@ -76,19 +78,21 @@ class shop_dao
     }
     public function getDetails($registration)
     {
-        // $sql = "SELECT i.src AS srcimg,c.* FROM cars c
-        //     RIGHT JOIN img i
-        //     ON c.registration=i.id
-        //     WHERE registration='$registration'";
-        return db::query()->select(['img.src AS srcimg', 'cars.*'], 'cars')
-            ->join([['img' => 'id', 'cars' => 'registration']], 'LEFT')
-            ->where(['registration' => [$registration]])->execute()->toJSON();
+        $typedQuery = "SELECT i.src AS srcimg,c.* FROM cars c RIGHT JOIN img i ON c.registration=i.id WHERE registration='$registration'";
+        return db::query()->manual($typedQuery)
+        ->execute()
+        ->queryToArray()
+        ->toJSON();
+        // return db::query()->select(['img.src AS srcimg', 'cars.*'], 'cars')
+            // ->join([['img' => 'id', 'cars' => 'registration']], 'LEFT')
+            // ->where(['registration' => [$registration]])->execute()->toJSON();
     }
     public function addView($registration)
     {
         // $sql = "UPDATE cars SET views = views + 1 WHERE registration = '{$registration}'";
         return db::query()->update(['views' => 'views + 1'], 'cars')
-            ->where(['registration' => [$registration]])->execute()->toJSON();
+            ->where(['registration' => [$registration]])
+            ->execute() -> toJSON() -> getResolve();
     }
     public function getCart($user)
     {
@@ -100,50 +104,63 @@ class shop_dao
     }
     public function addItemCart($user, $registration)
     {
-        // $sql = "INSERT INTO `cart`(`cartuser`, `registration`) VALUES ('{$user}','{$registration}')";
-        db::query()->insert([['cartuser' => $user, 'registration' => $registration]], 'cart')
-            ->execute()
-            ->toJSON();
+        $typedQuery = "INSERT INTO `cart`(`cartuser`, `registration`) VALUES ('{$user}','{$registration}')";
+        // db::query()->insert([['cartuser' => $user, 'registration' => $registration]], 'cart')
+        //     ->execute() -> toJSON() -> getResolve();
+        return db::query()->manual($typedQuery)
+        ->execute()
+        ->toJSON();
     }
     public function rmItemCart($user, $registration)
     {
-        // $sql = "DELETE FROM cart WHERE registration = '{$registration}' AND cartuser = '{$user}'";
-        return db::query()->delete('cart')
-            ->where(['registration' => [$registration], 'username' => [$user]])
-            ->execute()
-            ->toJSON();
+        $typedQuery = "DELETE FROM cart WHERE registration = '{$registration}' AND cartuser = '{$user}'";
+        // return db::query()->delete('cart')
+        //     ->where(['registration' => [$registration], 'username' => [$user]])
+        //     ->execute() -> toJSON();
+        return db::query()->manual($typedQuery)
+        ->execute()
+        ->toJSON();
     }
     public function addItemFav($user, $registration)
     {
-        // $sql = "INSERT INTO `favs`(`userfav`, `registrationfav`) VALUES ('{$user}','{$registration}')";
-        return db::query()->insert([['userfav' => $user, 'registrationfav' => $registration]], 'favs')
-            ->execute()
-            ->toJSON();
+        $typedQuery = "INSERT INTO `favs`(`userfav`, `registrationfav`) VALUES ('{$user}','{$registration}')";
+        // return db::query()->insert([['userfav' => $user, 'registrationfav' => $registration]], 'favs')
+        //     ->execute() -> toJSON() -> getResolve();
+        return db::query()->manual($typedQuery)
+        ->execute()
+        ->toJSON();
     }
     public function rmItemFav($user, $registration)
     {
-        // $sql = "DELETE FROM favs WHERE registrationfav = '{$registration}' AND userfav = '{$user}'";
-        return db::query()->delete('cart')
-            ->where(['registrationfav' => [$registration], 'userfav' => [$user]])
-            ->execute()
-            ->toJSON();
+        $typedQuery = "DELETE FROM favs WHERE registrationfav = '{$registration}' AND userfav = '{$user}'";
+        return db::query()->manual($typedQuery)
+        ->execute()
+        ->toJSON();
+
+        // return db::query()->delete('cart')
+        //     ->where(['registrationfav' => [$registration], 'userfav' => [$user]])
+        //     ->execute() -> toJSON() -> getResolve();
     }
     public function addItemIns($user, $registration)
     {
-        // $sql = "UPDATE cart SET insurance = 1 WHERE registration = '{$registration}' AND cartuser = '{$user}'";
-        return db::query()->update(['views' => 1], 'cars')
-            ->where(['registration' => [$registration], 'cartuser' => [$user]])
-            ->execute()
-            ->toJSON();
+        $typedQuery = "UPDATE cart SET insurance = 1 WHERE registration = '{$registration}' AND cartuser = '{$user}'";
+        // return db::query()->update(['views' => 1], 'cars')
+        //     ->where(['registration' => [$registration], 'cartuser' => [$user]])
+        //     ->execute() -> toJSON() -> getResolve();
 
+        return db::query()->manual($typedQuery)
+        ->execute()
+        ->toJSON();
     }
     public function rmItemIns($user, $registration)
     {
-        // $sql = "UPDATE cart SET insurance = 0 WHERE registration = '{$registration}' AND cartuser = '{$user}'";
-        return db::query()->update(['views' => 0], 'cars')
-            ->where(['registration' => [$registration], 'cartuser' => [$user]])
-            ->execute()
-            ->toJSON();
+        $typedQuery = "UPDATE cart SET insurance = 0 WHERE registration = '{$registration}' AND cartuser = '{$user}'";
+        // return db::query()->update(['views' => 0], 'cars')
+        //     ->where(['registration' => [$registration], 'cartuser' => [$user]])
+        //     ->execute() -> toJSON() -> getResolve();
+        return db::query()->manual($typedQuery)
+        ->execute()
+        ->toJSON();
     }
 
 }

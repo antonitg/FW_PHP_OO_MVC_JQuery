@@ -29,71 +29,71 @@ class shop_bll {
     public function getMapShop($args) {
         return $this -> dao -> getMapShop($args[0],$args[1]);
     }
-    public function getSearchResults($keyword) {
-        return $this -> dao -> getSearchResults($keyword);
+    public function getSearchResults($args) {
+        return $this -> dao -> getSearchResults($args[0]);
     }
     public function loadFilters() {
         return $this -> dao -> loadFilters();
     }
-    public function getDetails($registration) {
-        return $this -> dao -> getDetails($registration);
+    public function getDetails($args) {
+        return $this -> dao -> getDetails($args[0]);
     }
-    public function addView($registration) {
-        return $this -> dao -> addView($registration);
+    public function addView($args) {
+        return $this -> dao -> addView($args[0]);
     }
     public function getCart($args) {
-        if ($args[0] == "null") {
+        if ($args[1] == "null") {
             $user = "guest";
         } else {
-            $user = json_decode(jwt_process::decode($args[0], $args[1]), true)['name'];
+            $user = json_decode(jwt_process::decode($args[1], $args[0]), true)['name'];
         }
         return $this -> dao -> getCart($user);
     }
     public function addItemCart($args) {
-        if ($args[0] == "null") {
+        if ($args[1] == "null") {
             $user = "guest";
         } else {
-            $user = json_decode(jwt_process::decode($args[0], $args[1]), true)['name'];
+            $user = json_decode(jwt_process::decode($args[1], $args[0]), true)['name'];
         }
         return $this -> dao -> addItemCart($user,$args[2]);
     }
     public function rmItemCart($args) {
-        if ($args[0] == "null") {
+        if ($args[1] == "null") {
             $user = "guest";
         } else {
-            $user = json_decode(jwt_process::decode($args[0], $args[1]), true)['name'];
+            $user = json_decode(jwt_process::decode($args[1], $args[0]), true)['name'];
         }
         return $this -> dao -> rmItemCart($user,$args[2]);
     }
     public function addItemFav($args) {
-        if ($args[0] == "null") {
+        if ($args[1] == "null") {
             $user = "guest";
         } else {
-            $user = json_decode(jwt_process::decode($args[0], $args[1]), true)['name'];
+            $user = json_decode(jwt_process::decode($args[1], $args[0]), true)['name'];
         }
         return $this -> dao -> addItemFav($user,$args[2]);
     }
     public function rmItemFav($args) {
-        if ($args[0] == "null") {
+        if ($args[1] == "null") {
             $user = "guest";
         } else {
-            $user = json_decode(jwt_process::decode($args[0], $args[1]), true)['name'];
+            $user = json_decode(jwt_process::decode($args[1], $args[0]), true)['name'];
         }
         return $this -> dao -> rmItemFav($user,$args[2]);
     }
     public function addItemIns($args) {
-        if ($args[0] == "null") {
+        if ($args[1] == "null") {
             $user = "guest";
         } else {
-            $user = json_decode(jwt_process::decode($args[0], $args[1]), true)['name'];
+            $user = json_decode(jwt_process::decode($args[1], $args[0]), true)['name'];
         }
         return $this -> dao -> addItemIns($user,$args[2]);
     }
     public function rmItemIns($args) {
-        if ($args[0] == "null") {
+        if ($args[1] == "null") {
             $user = "guest";
         } else {
-            $user = json_decode(jwt_process::decode($args[0], $args[1]), true)['name'];
+            $user = json_decode(jwt_process::decode($args[1], $args[0]), true)['name'];
         }
         return $this -> dao -> rmItemIns($user, $args[2]);
     }  

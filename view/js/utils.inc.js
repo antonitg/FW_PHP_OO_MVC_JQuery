@@ -17,7 +17,7 @@ function friendlyURL(url) {
     return new Promise(function(resolve, reject) {
         //////
         $.ajax({
-            url: 'http://' + window.location.hostname + '/cars/FW_3AVA/view/paths.php?op=get',
+            url: 'http://' + window.location.hostname + '/cars/FW_3AVA/FW_PHP_OO_MVC_Jquery/view/paths.php?op=get',
             type: 'POST',
             dataType: 'JSON'
         }).done(function(data) {
@@ -33,7 +33,7 @@ function friendlyURL(url) {
             }else {
                 link = '/' + url;
             }// end_else
-            resolve ("http://" + window.location.hostname + "/cars/FW_3AVA" + link);
+            resolve ("http://" + window.location.hostname + "/cars/FW_3AVA/FW_PHP_OO_MVC_Jquery" + link);
         }).fail(function(error) {
             reject (error);
         });
