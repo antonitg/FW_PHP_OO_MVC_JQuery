@@ -28,13 +28,9 @@ define ('MODEL_PATH_SHOP', SITE_ROOT . 'module/shop/model/');
 //Search
 define ('MODEL_PATH_SEARCH', SITE_ROOT . 'module/search/model/');
 
-//Login
-define('VIEW_PATH_LOGIN', SITE_ROOT . 'module/login/view/');
-define ('MODEL_PATH_LOGIN', SITE_ROOT . '/module/login/model/model/');
-
-//Cart
-define('VIEW_PATH_CART', SITE_ROOT . 'module/cart/view/');
-define ('MODEL_PATH_CART', SITE_ROOT . '/module/cart/model/model/');
+//Logreg
+define('VIEW_PATH_LOGREG', SITE_ROOT . 'module/logreg/view/');
+define ('MODEL_PATH_LOGREG', SITE_ROOT . 'module/logreg/model/');
 
 //Menu
 define('VIEW_PATH_MENU', SITE_ROOT . 'module/menu/view/');
@@ -46,7 +42,8 @@ define ('MODEL_PATH_PROFILE', SITE_ROOT . '/module/profile/model/model/');
 
 // Friendly
 define('URL_FRIENDLY', TRUE);
-
-if ($_GET['op'] == 'get') {
-    echo json_encode(URL_FRIENDLY);
+if (isset($_GET['op'])){
+    if ($_GET['op'] == 'get') {
+        echo json_encode(URL_FRIENDLY);
+    }    
 }

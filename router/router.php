@@ -18,8 +18,18 @@ class router {
     }// end_getInstance
 
     function __construct() {
-        $this -> uriModule = ($_GET['page']) ? $_GET['page'] : 'home';
-        $this -> uriFunction = ($_GET['op']) ? $_GET['op'] : 'list';
+        if (isset($_GET['page'])){
+            $this -> uriModule = ($_GET['page']) ? $_GET['page'] : 'home';
+        } else {
+            $this -> uriModule = 'home';
+        }
+        if (isset($_GET['op'])){
+            $this -> uriFunction = ($_GET['op']) ? $_GET['op'] : 'list';
+        } else {
+            $this -> uriFunction = 'list';    
+        }
+        // $this -> uriModule = ($_GET['page']) ? $_GET['page'] : 'home';
+        // $this -> uriFunction = ($_GET['op']) ? $_GET['op'] : 'list';
     }// end_construct
 
     function rountingStart() {

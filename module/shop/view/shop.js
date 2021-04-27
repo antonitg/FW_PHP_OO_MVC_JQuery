@@ -5,7 +5,7 @@ function load_content(loadurl) {
     getPaginationValues();
 
     friendlyURL('?page=shop&op=getFiltersSearch').then(function (data) {
-        ajaxPromise(data, 'POST', 'JSON', { objenv: JSON.stringify(loadurl) }).then(function (jsonSearch) {
+        ajaxPromise(data, 'POST', 'JSON', {objenv: JSON.stringify(loadurl)}).then(function (jsonSearch) {
             console.log(jsonSearch);
             $('#result-content').empty();
             if (Object.keys(jsonSearch).length == 1) {
@@ -67,7 +67,6 @@ function no_result(keyword) {
 }
 function load_filters() {
     friendlyURL('?page=shop&op=loadFilters').then(function (data) {
-        console.log("Dins de load filters friendly");
         ajaxPromise(data, 'POST', 'JSON').then(function (jsonSearch) {
             $.each(jsonSearch, function (i, item) {
                 $("<option></option>").attr({ 'value': jsonSearch[i]["brand"] }).append(document.createTextNode(jsonSearch[i]["brand"] + "  " + jsonSearch[i]["num"])).appendTo("#brand_cat");

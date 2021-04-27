@@ -11,7 +11,6 @@
 	   
         <link href="<?php echo SITE_PATH ?>view/css/general.css" rel="stylesheet"/>
         
-        <link href="<?php echo VIEW_PATH_MENU ?>css/search.css" rel="stylesheet"/>
 
         
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs@1.8.0/build/css/alertify.min.css"/>
@@ -33,7 +32,7 @@
         <script type="text/javascript" src="/cars/FW_3AVA/FW_PHP_OO_MVC_JQuery/module/search/view/search.js"></script>
         <script type="text/javascript" src="/cars/FW_3AVA/FW_PHP_OO_MVC_JQuery/module/home/view/home.js"></script>
         <script type="text/javascript" src="/cars/FW_3AVA/FW_PHP_OO_MVC_JQuery/model/credentials.js"></script>
-        <!-- <script type="text/javascript" src="module/logreg/model/logreg.js"></script> -->
+        <script type="text/javascript" src="/cars/FW_3AVA/FW_PHP_OO_MVC_JQuery/module/logreg/view/logreg.js"></script>
         <script type="text/javascript" src="/cars/FW_3AVA/FW_PHP_OO_MVC_JQuery/general/middleware/middleware.js"></script>
         <script type="text/javascript" src="/cars/FW_3AVA/FW_PHP_OO_MVC_JQuery/general/utils/utils.js"></script>
         <script type="text/javascript" src="/cars/FW_3AVA/FW_PHP_OO_MVC_JQuery/view/js/utils.inc.js"></script>  
