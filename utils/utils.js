@@ -11,7 +11,7 @@ function generateMenu() {
 $(document).ready(function () {
     generateMenu();
     $(document).on("click", "#btlogout", function () {
-        logout();
+        // logout();
     });
     
     // console.log(tkdecode("name"));

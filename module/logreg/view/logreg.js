@@ -4,6 +4,12 @@ function register() {
     friendlyURL('?page=logreg&op=register').then(function (data) {
       ajaxPromise(data, 'POST', '', { fullname:$("#regfullname").val(),username:$("#regusername").val(),email:$("#regemail").val(),passwd:$("#regpasswd").val() }).then(function (jsonSearch) {
         console.log(jsonSearch);
+        friendlyURL('?page=logreg&op=sendVerifyEmail').then(function (data) {
+          ajaxPromise(data, 'POST', '', { email:$("#regemail").val()}).then(function (jsonSearch) {
+            console.log("funciona"+jsonSearch)
+          }).catch(function () {
+            alertify.error('That username dont exist, you can register now or log in with an existent account.');  });
+          });
       alertify.warning(jsonSearch);
     }).catch(function () {
       alertify.error('That username dont exist, you can register now or log in with an existent account.');  });
@@ -16,7 +22,7 @@ function registervalidate() {
 }
 function logout() {
   localStorage.removeItem("token");
-  window.location.href = "index.php?page=logreg";
+  // window.location.href = "index.php?page=logreg";
   alertify.warning("Your session has expired, login again");
 }
 function login() {
@@ -28,8 +34,9 @@ function login() {
       if (jsonSearch[2] === undefined){
         if (jsonSearch[1] == "warning"){
           alertify.warning(jsonSearch[0]);
+        } else {
+        alertify.warning(jsonSearch[0]);
         }
-        console.log("bad"+jsonSearch[2]);
       } else {
         console.log("well"+jsonSearch[2]);
         alertify.warning(jsonSearch[0]);
@@ -88,6 +95,10 @@ $(document).ready(function () {
   $(document).on("click", "#logbutton", function () {
       login();
   });
+  $(document).on("click", "#veremail", function () {
+    recover();
+  });
+
   $(document).on("click", "#regbutton", function () {
     register();
 });

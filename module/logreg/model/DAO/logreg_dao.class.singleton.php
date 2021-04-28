@@ -24,8 +24,23 @@ class logreg_dao
             ->execute()
             ->queryToArray() -> getResolve();
     }
+    public function setVerifyToken($token,$email)
+    {
+       $typedQuery = "UPDATE users SET tokenVerify = '{$token}' WHERE email = '{$email}'";
+        return db::query()->manual($typedQuery)
+            ->execute()
+            ->toJSON();
+    }
+    public function verifyToken($token)
+    {
+       $typedQuery = "UPDATE users SET tokenVerify = NULL WHERE tokenVerify = '{$token}'";
+        return db::query()->manual($typedQuery)
+            ->execute()
+            ->toJSON();
+    }
+    
     public function selectUserData($username) {
         return db::query() -> select(['*'], 'users') -> where(['username' => [$username]]) -> execute() -> queryToArray() -> getResolve();
     }// end_selectUserData
-
+ 
 }

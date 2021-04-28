@@ -13,26 +13,27 @@ class mail {
                 break;
                 //////
             case 'admin';
-                $email['toEmail'] = 'antonitormogar@gmail.com';
+                $email['toEmail'] = 'gineraantoni@gmail.com';
                 break;
                 //////
             case 'recover';
                 $email['fromEmail'] = 'support@getyourcar.com';
                 $email['inputMatter'] = 'Recover Password.';
                 $content .= "<h2>Thanks for contacting us.</h2>";
-                $content .= "<a href = '" . common::friendlyURL('?page=login&op=recover&param=' . $email['token']) ."'>Click here for recover your password.</a>";
+                $content .= "<a href = '" . common::friendlyURL('?page=logreg&op=recover&param=' . $email['token']) ."'>Click here for recover your password.</a>";
                 break;
                 //////
-            case 'validate';
+            case 'verify';
+                $email['inputMatter'] = 'Recover Passwd';            
                 $email['fromEmail'] = 'support@getyourcar.com';
                 $email['inputMatter'] = 'Email verification.';
                 $content .= '<h2>Email verification.</h2>';
-                $content .= '<a href = "' . common::friendlyURL('?page=login&op=verify&param=' . $email['token']) . '">Click here for verify your email.</a>';
+                $content .= '<a href = "' . common::friendlyURL('?page=logreg&op=verify&param=' . $email['token']) . '">Click here for verify your email.</a>';
                 break;
                 //////
         }// end_switch
         //////
-        $content .= "<br><a Mira esto pareix que haja enviat el correu desde el teu propi correu pero no jaja</a>";
+        $content .= "<br><a Linia 35 de mail.in.php del codi</a>";
         $email['inputMessage'] .= $content;
         //////
         return self::sendMailGun($email);
@@ -41,7 +42,6 @@ class mail {
     static function sendMailGun($values) {
         $ini_file = parse_ini_file($_SERVER['DOCUMENT_ROOT'] . '/cars/FW_3AVA/model/credentials/apis.ini');
         $config = array();
-        //////
         $config['api_key'] = $ini_file['mailGunKey'];
         $config['api_url'] = $ini_file['mailGunURL'];
         $message = array();
@@ -50,8 +50,6 @@ class mail {
         // $message['h:Reply-To'] = $values['inputEmail'];
         $message['subject'] = $values['inputMatter'];
         $message['html'] = $values['inputMessage'];
-
-        //////
         
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $config['api_url']);
@@ -64,11 +62,11 @@ class mail {
         curl_setopt($ch, CURLOPT_POST, true); 
         curl_setopt($ch, CURLOPT_POSTFIELDS,$message);
         $result = curl_exec($ch);
-        // echo '<script>';
-        // echo 'console.log('. json_encode( $config ) .')';
-        // echo '</script>';
         curl_close($ch);
-        //////
-        return $result;
+        // if (!empty($result["id"])){
+            return array('token' => $values['token'], 'email' => $values['toEmail']);
+        // } else {
+        //     return $result;
+        // }
     }// end_sendMailGun
 }// end_mal

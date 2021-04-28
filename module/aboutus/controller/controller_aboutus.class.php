@@ -16,7 +16,7 @@ class controller_aboutus {
                             'inputMessage' => ''];
         $emailAdmin = json_decode(mail::setEmail($messageAdmin), true);
         //////
-        if (!empty($emailAdmin['id'])) {
+        if (!empty($emailAdmin)) {
             $emailClient = json_decode(mail::setEmail($messageClient), true);
             if (!empty($emailClient['id'])) {
                 echo json_encode('Done!');

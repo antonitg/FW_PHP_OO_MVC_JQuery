@@ -10,16 +10,14 @@ function tkdecode(datavalue) {
         jsonSearch = $.parseJSON(`${jsonSearchPre}`);
         algo = $.parseJSON(`${jsonSearchPre}`);
         if (datavalue == "name"){
-            // console.log("per asi pasa name");
             stringfinal=jsonSearch['name'].toString();
         } else if (datavalue === "exp") {
             stringfinal=jsonSearch['exp'];
         } else {
-            // return jsonSearch;
         }
       }).fail(function (jqXHR, textStatus, errorThrown) {
         console.log("Error");
-        // window.location.href = "index.php?page=logreg";
+        window.location.href = "index.php?page=logreg";
 
     });
     tkchecktime(jsonSearch["iat"]);

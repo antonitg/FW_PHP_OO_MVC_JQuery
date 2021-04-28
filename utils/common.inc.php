@@ -51,7 +51,7 @@ class common {
         throw new Exception();
     }// end_accessModel
 
-    function generate_Token_secure($longitud){
+    static function generate_Token_secure($longitud){
         if ($longitud < 4) {
             $longitud = 4;
         }

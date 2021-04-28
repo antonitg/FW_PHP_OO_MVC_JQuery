@@ -12,5 +12,17 @@
         <name>register</name>
         <uri>register</uri>
     </function>
+    <function>
+        <name>sendVerifyEmail</name>
+        <uri>sendVerifyEmail</uri>
+    </function>
+    <function>
+        <name>verify</name>
+        <uri>verify</uri>
+    </function>
+    <function>
+        <name>verifyToken</name>
+        <uri>verifyToken</uri>
+    </function>
 
 </functions>

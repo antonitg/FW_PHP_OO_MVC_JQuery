@@ -20,4 +20,13 @@ class logreg_model {
     public function register($args) {
         return $this -> bll -> register($args);
     }
+    public function verifyUser($args) {
+        return $this -> bll -> verifyUser($args);
+    }
+    public function setVerifyToken($args) {
+        return $this -> bll -> setVerifyToken($args);
+    }
+    public function verifyToken($token) {
+        return $this -> bll -> verifyToken($token);
+    }
 }
